@@ -34,14 +34,10 @@ int print(int argc, char* argv[])
 
     for (size_t i = 0; i < argc - 1; ++i)
     {
-        printf("%s:\n\n", argv[i + 1]);
         while (fgets(buffer, sizeof(buffer), pFiles[i]))
         {
             printf("%s", buffer);
         }
-
-        putchar('\n');
-        putchar('\n');
     }
 
     for (size_t i = 0; i < argc - 1; ++i)
