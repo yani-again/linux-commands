@@ -19,10 +19,3 @@ Example usage:
 No installation required.
 
 Just download the 'main.c' file and compile it with the C compiler of your choice, then run it from your terminal as outlined above.
-
-## Notes
-Initial commit doesn't include full implementation of the > operator (used to write the contents of one file into another).
-
-It works, however it appends the file name plus a newline character at the beginning of the file due to incomplete implementation.
-
-This will be updated in the future, if it hasn't aready as of you reading this.
