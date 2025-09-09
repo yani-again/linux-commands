@@ -36,3 +36,4 @@ It's worth noting that the real `wc` Linux command is capable of taking the argu
 ~/main ~/recipes/chocolate-cake.txt -l
 
 My implementation does not yet include this functionality.
+
