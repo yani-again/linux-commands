@@ -2,14 +2,17 @@
 
 int main(int argc, char* argv[])
 {
-    char* flags = "";
+    char option_order[3];
+
     FILE* pFile;
     char buffer[1024] = {0};
+    int file_index = 1;
 
-    int i;
     int lines = 0;
     int words = 0;
     int chars = 0;
+
+    // for logic
     int inside_word = 0;
     char previous_char = ' ';
 
@@ -22,12 +25,55 @@ int main(int argc, char* argv[])
             printf("Couldn't open file\n");
             return 1;
         }
+
+        option_order[0] = 'l';
+        option_order[1] = 'w';
+        option_order[2] = 'c';
     }
     else
     {
-        flags = argv[1];
-        pFile = fopen(argv[2], "r");
+        int option_count = 0;
 
+        // duplicate option prevention variables
+        int w_check = 0;
+        int l_check = 0;
+        int c_check = 0;       
+
+        for (int i = 1; i < argc; ++i)
+        {
+            if (argv[i][0] == '-')
+            {
+                int j = 1;
+                while (argv[i][j] != '\0')
+                {
+                    if (argv[i][j] == 'w' && !w_check)
+                    {
+                        w_check = 1;
+                        option_order[option_count] = 'w';
+                        ++option_count;
+                    }
+                    else if (argv[i][j] == 'l' && !l_check)
+                    {
+                        l_check = 1;
+                        option_order[option_count] = 'l';
+                        ++option_count;
+                    }
+                    else if (argv[i][j] == 'c' && !c_check)
+                    {
+                        c_check = 1;
+                        option_order[option_count] = 'c';
+                        ++option_count;
+                    }
+                    ++j;
+                }
+            }
+            else
+            {
+                file_index = i;
+                pFile = fopen(argv[i], "r");
+            }
+        }
+        
         if (pFile == NULL)
         {
             printf("Couldn't open file\n");
@@ -37,7 +83,7 @@ int main(int argc, char* argv[])
 
     while (fgets(buffer, sizeof(buffer), pFile))
     {
-        for (i = 0; i < sizeof(buffer) && (buffer[i] != '\0'); ++i)
+        for (int i = 0; i < sizeof(buffer) && (buffer[i] != '\0'); ++i)
         {
             ++chars;
             if (buffer[i] == '\n') ++lines;
@@ -57,23 +103,29 @@ int main(int argc, char* argv[])
         }
     }
 
+    fclose(pFile);
+
     // if last char in the file isn't \n, count an extra line
     if (previous_char != '\n') ++lines;
 
-    int j = 0;
-    while (flags[j] != '\0')
+    for (int i = 0; i < 3; ++i)
     {
-        if (flags[j] == 'l') printf("%d  ", lines);
-        else if (flags[j] == 'w') printf("%d  ", words);
-        else if (flags[j] == 'c') printf("%d  ", chars);
-        ++j;
+        switch (option_order[i])
+        {
+            case 'w':
+                printf("%d ", words);
+                break;
+            case 'l':
+                printf("%d ", lines);
+                break;
+            case 'c':
+                printf("%d ", chars);
+                break;
+        }
     }
 
-    if (j == 0) printf("%d  %d  %d", lines, words, chars);
-    putchar('\n');
+    printf("%s\n", argv[file_index]);
 
-    fclose(pFile);
-    
     return 0;
 }
 

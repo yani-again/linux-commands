@@ -31,9 +31,4 @@ Just download the 'main' file if you're on Linux and run it directly as outlined
 Or if you are not on a Linux computer, download the 'main.c' file and compile it using a compiler of your choice, then run the output file as outlined above.
 
 ## Notes
-It's worth noting that the real `wc` Linux command is capable of taking the argument of the -l -w -c flags and the input file in any order. Example (both of these work):
-~/main -l ~/recipes/chocolate-cake.txt
-~/main ~/recipes/chocolate-cake.txt -l
-
-My implementation does not yet include this functionality.
-
+Updated to allow destination file and options to be put in any order and with any combination (e.g. -wc and -w -c will both work)
